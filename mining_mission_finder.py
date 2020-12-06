@@ -45,12 +45,11 @@ def update():
 
     tracking = {}
     t.delete("1.0", "end")
-    lastSys = requests.get("https://www.edsm.net/api-logs-v1/get-position", params={"commanderName": cmdr, "apiKey": api}).json()["system"]
-    try:
+    if sysOverride:
         lastSys = sysOverride
-        sysOverride = None
-    except NameError:
-        pass
+    else:
+        lastSys = requests.get("https://www.edsm.net/api-logs-v1/get-position", params={"commanderName": cmdr, "apiKey": api}).json()["system"]
+
     print("Last System is: {}".format(lastSys))
 
     request = {i["name"]: i for i in requests.get("https://www.edsm.net/api-v1/sphere-systems", params={"systemName": lastSys, "radius": radius, "showInformation": 1}).json()}
