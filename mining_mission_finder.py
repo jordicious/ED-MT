@@ -5,7 +5,7 @@ import tkinter as tk
 
 econExclude = ["Extraction", "Refinery"]
 typeExclude = ["Fleet Carrier", "Planetary Outpost", "Planetary Port", "Outpost"]
-stateExclude = ["Civil War, Pirate Attack, Election"]
+stateExclude = []
 
 with open("config.txt", "r") as Keys:
     cmdr, api, lite = (i.strip("\n") for i in Keys.readlines())
@@ -93,8 +93,8 @@ def update():
                 continue
             if "Missions" not in j["otherServices"]:
                 continue
-            # if int(j["distanceToArrival"]) > 15000:
-                # continue
+            if int(j["distanceToArrival"]) > 10000:
+                continue
 
             # print("    {} ({}".format(j["name"], j["economy"]) + (", {})".format(j["secondEconomy"]) if j["secondEconomy"] else ")"))
 
