@@ -7,7 +7,6 @@ import matplotlib.transforms as mtransforms
 import numpy as np
 from math import sqrt, sin, cos, tan, asin, acos, atan, degrees, radians
 import random
-import test
 from PIL import Image
 
 

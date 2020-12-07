@@ -5,6 +5,7 @@ import tkinter as tk
 
 econExclude = ["Extraction", "Refinery"]
 typeExclude = ["Fleet Carrier", "Planetary Outpost", "Planetary Port", "Outpost"]
+MFinclude = ["Pilots' Federation Local Branch", 'EG Union', 'Wolf 406 Transport & Co', 'East India Company', 'EDA Kunti League', 'Iota Hydri Empire Pact', 'Independent Deciat Green Party', 'Nationals of HIP 6108', 'HIP 11241 Patrons of Law', 'Ngalinn Jet Natural Incorporated', 'Aitvas Corp.', 'Mainani Empire Party', 'Imperial Wargrannys', 'Brothers of Mainani', 'Hajo General Solutions', 'Sirius Corporation', 'Canonn', 'Eurybia Blue Mafia', 'Federation Unite!', 'RSR', 'Exphiay for Equality', 'White Star Surveillance Division', 'Exphiay Blue Transport Corp', 'Exphiay Crimson Hand Gang', 'Gallant Investment Brokers', 'The Bliss Consortium', 'Duduseklis Empire League', 'Fionn Liberals', 'Alliance Democratic Network', 'Party of Yoru', 'HIP 14211 Blue Posse', 'Dominion of LHS 54', 'Sirius Atmospherics']
 stateExclude = []
 
 with open("config.txt", "r") as Keys:
@@ -66,23 +67,32 @@ def update():
         sysInfo = request[i]["information"]
 
         try:
-            econ = sysInfo["economy"]
+            if sysInfo["factionState"] in stateExclude:
+                continue
         except KeyError:
             continue
 
         try:
-            econ2 = sysInfo["secondEconomy"]
+            econ = sysInfo["economy"]
+            try:
+                econ2 = sysInfo["secondEconomy"]
+            except KeyError:
+                econ2 = None
         except KeyError:
-            econ2 = None
+            continue
 
-        if not len(sysInfo):
-            continue
         if econ in econExclude and (econ2 in econExclude or not econ2):
-            continue
-        if sysInfo["factionState"] in stateExclude:
             continue
 
         # print("{} ({}): {}".format(i, k, econ) + ("/{}".format(econ2) if econ2 else ""))
+
+        factions = requests.get("https://www.edsm.net/api-system-v1/factions", params={"systemName": i}).json()
+        print(factions)
+        # if not len(factions):
+            # continue
+        MFacs = [i["name"] for i in factions["factions"]]
+        if not len([i for i in MFacs if i in MFinclude]):
+            continue
 
         stations = requests.get("https://www.edsm.net/api-system-v1/stations", params={"systemName": i}).json()["stations"]
 
@@ -119,7 +129,13 @@ def update():
                     print("{} ({}ly)\n    {}".format(i, k, j["name"]))
 
     if not len(tracking):
-        t.insert("end", "None Found")
+        if not lite:
+            t.insert("end", "None Found")
+        else:
+            print("None Found")
+
+    num = sum([len(tracking[i]) for i in tracking])
+    print("Found {} Stations to Visit :)".format(num))
 
 
 if not lite:
