@@ -60,7 +60,7 @@ def getLastDock():
 
                 if entry:
                     if entry["event"] == "Docked":
-                        lastDock = entry["StarSystem"]
+                        lastDock = (entry["StarSystem"], entry["StationName"])
             if lastDock:
                 return lastDock
 

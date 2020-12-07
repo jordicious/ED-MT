@@ -10,7 +10,7 @@ stationTypeExclude = ["Outpost", "Fleet Carrier", "Planetary Port", "Planetary O
 econExclude = ["Extraction", "Refinery"]
 stateExclude = ["War", "Civil War", "Pirate Attack", "Bust", "Election"]
 MFacs = MFRep.getMinorFactions(35)
-originSys = MFRep.getLastDock()
+originSys = MFRep.getLastDock()[0]
 radius = float(input("Radius >"))
 maxDist = 10000
 
@@ -105,3 +105,21 @@ ax.set_zbound(-300, 300)
 ax.scatter(xs, ys, zs, s=stations, c=factions, alpha=0.9)
 plt.show()
 '''
+
+while True:
+    input(">")
+    dock = MFRep.getLastDock()
+    try:
+        sys = next(sys for sys in systems if sys.name == dock[0])
+    except StopIteration:
+        print("You aren't at a listed system")
+        continue
+    facs = list(sys.factions)
+
+    for i in range(len(facs)):
+        print("({}) {}".format(i, facs[i]))
+    faction = int(input("Which Faction >"))
+
+    with open("WMMs Log.txt", "a") as f:
+        f.writelines("{}/{}/{}\n".format(sys.name, dock[1], facs[faction]))
+    f.close()
