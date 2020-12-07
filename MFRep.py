@@ -64,6 +64,7 @@ def getLastDock():
                 if entry:
                     if entry["event"] == "Docked":
                         lastDock[0], lastDock[1] = entry["StarSystem"], entry["StationName"]
+                        lastDock[2] = lastDock[0]
                     elif entry["event"] == "FSDJump":
                         lastDock[2] = entry["StarSystem"]
             if lastDock:
