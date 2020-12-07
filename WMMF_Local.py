@@ -10,7 +10,7 @@ stationTypeExclude = ["Outpost", "Fleet Carrier", "Planetary Port", "Planetary O
 econExclude = ["Extraction", "Refinery"]
 stateExclude = ["War", "Civil War", "Pirate Attack", "Bust", "Election"]
 MFacs = MFRep.getMinorFactions(35)
-originSys = MFRep.getLastDock()[0]
+originSys = MFRep.getLastDock()[2]
 radius = float(input("Radius >"))
 maxDist = 10000
 

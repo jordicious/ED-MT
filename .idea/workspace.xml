@@ -29,7 +29,7 @@
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Python" />
   </component>
-  <component name="RunManager" selected="Python.dumpCache">
+  <component name="RunManager" selected="Python.WMMF_Local">
     <configuration name="MFRep" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ED-MA" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -51,7 +51,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="SRC_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="WMMF_Local" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ED-MA" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -63,7 +63,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SRC_process.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/WMMF_Local.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -137,11 +137,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.dumpCache" />
+        <item itemvalue="Python.WMMF_Local" />
         <item itemvalue="Python.MFRep" />
+        <item itemvalue="Python.dumpCache" />
         <item itemvalue="Python.mining_mission_finder" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.SRC_process" />
       </list>
     </recent_temporary>
   </component>
@@ -159,26 +159,26 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2539" height="413" key="GridCell.Tab.0.bottom" timestamp="1607306473995">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="2539" height="413" key="GridCell.Tab.0.bottom" timestamp="1607307746933">
+      <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2539" height="413" key="GridCell.Tab.0.bottom/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607282531157" />
-    <state width="2539" height="413" key="GridCell.Tab.0.bottom/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607306473995" />
-    <state width="2539" height="413" key="GridCell.Tab.0.center" timestamp="1607306473995">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="2539" height="413" key="GridCell.Tab.0.bottom/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607307746933" />
+    <state width="2539" height="413" key="GridCell.Tab.0.bottom/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607307408674" />
+    <state width="2539" height="413" key="GridCell.Tab.0.center" timestamp="1607307746933">
+      <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2539" height="413" key="GridCell.Tab.0.center/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607282531157" />
-    <state width="2539" height="413" key="GridCell.Tab.0.center/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607306473995" />
-    <state width="2539" height="413" key="GridCell.Tab.0.left" timestamp="1607306473995">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="2539" height="413" key="GridCell.Tab.0.center/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607307746933" />
+    <state width="2539" height="413" key="GridCell.Tab.0.center/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607307408674" />
+    <state width="2539" height="413" key="GridCell.Tab.0.left" timestamp="1607307746933">
+      <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2539" height="413" key="GridCell.Tab.0.left/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607282531157" />
-    <state width="2539" height="413" key="GridCell.Tab.0.left/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607306473995" />
-    <state width="2539" height="413" key="GridCell.Tab.0.right" timestamp="1607306473995">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="2539" height="413" key="GridCell.Tab.0.left/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607307746933" />
+    <state width="2539" height="413" key="GridCell.Tab.0.left/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607307408674" />
+    <state width="2539" height="413" key="GridCell.Tab.0.right" timestamp="1607307746933">
+      <screen x="-2560" y="0" width="2560" height="1440" />
     </state>
-    <state width="2539" height="413" key="GridCell.Tab.0.right/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607282531157" />
-    <state width="2539" height="413" key="GridCell.Tab.0.right/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607306473995" />
+    <state width="2539" height="413" key="GridCell.Tab.0.right/0.0.2560.1440/-2560.0.2560.1440@-2560.0.2560.1440" timestamp="1607307746933" />
+    <state width="2539" height="413" key="GridCell.Tab.0.right/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1607307408674" />
     <state x="781" y="363" key="SettingsEditor" timestamp="1607288928729">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

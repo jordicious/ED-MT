@@ -22,14 +22,17 @@ def getMinorFactions(thresh):
                     entry = None
 
                 if entry:
-                    if entry["event"] == 'Location':
-                        try:
-                            fac = entry["Factions"]
-                            for faction in fac:
-                                MFs[faction["Name"]] = faction["MyReputation"]
+                    try:
+                        if entry["event"] == 'Location':
+                            try:
+                                fac = entry["Factions"]
+                                for faction in fac:
+                                    MFs[faction["Name"]] = faction["MyReputation"]
 
-                        except KeyError:
-                            fac = None
+                            except KeyError:
+                                fac = None
+                    except KeyError:
+                        continue
             file.close()
 
     for i in MFs:
@@ -49,7 +52,7 @@ def getMinorFactions(thresh):
 
 def getLastDock():
     paths.reverse()
-    lastDock = None
+    lastDock = [None, None, None]
     for i in paths:
         with open(str(i), "r", encoding='utf-8') as file:
             for line in file:
@@ -60,7 +63,9 @@ def getLastDock():
 
                 if entry:
                     if entry["event"] == "Docked":
-                        lastDock = (entry["StarSystem"], entry["StationName"])
+                        lastDock[0], lastDock[1] = entry["StarSystem"], entry["StationName"]
+                    elif entry["event"] == "FSDJump":
+                        lastDock[2] = entry["StarSystem"]
             if lastDock:
                 return lastDock
 
