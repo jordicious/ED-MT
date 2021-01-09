@@ -1,10 +1,5 @@
-
-api.txt
-config.txt
-logpath.txt
-systems.json
-systemsPopulated.json.gz
-MWWF.csv
+*.txt
+*.gz
 *.json
 *.csv
 *.csv

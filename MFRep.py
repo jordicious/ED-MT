@@ -2,9 +2,8 @@ import os
 from pathlib import Path
 import json
 
-with open("logpath.txt", "r") as file:
-    dirpath = file.read().strip("\n")
-    file.close()
+dirpath = os.path.expanduser("~") + "/Saved Games/Frontier Developments/Elite Dangerous"
+    
 paths = sorted(Path(dirpath).iterdir(), key=os.path.getmtime)
 for i in paths:
     if str(i)[-4:] != ".log":
