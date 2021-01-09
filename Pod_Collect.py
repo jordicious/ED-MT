@@ -4,8 +4,8 @@ import json
 from time import time
 
 pods = {
-    'podcoretissue': [0, "Pod Core Tissue"],
-    'poddeadtissue': [0, "Pod Dead Tissue"],
+    's_tissuesample_cells': [0, "Pod Core Tissue"],
+    's_tissuesample_surface': [0, "Pod Dead Tissue"],
     'podmesoglea': [0, "Pod Mesoglea"],
     'podoutertissue': [0, "Pod Outer Tissue"],
     'podshelltissue': [0, "Pod Shell Tissue"],
