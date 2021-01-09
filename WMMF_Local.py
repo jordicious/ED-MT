@@ -6,7 +6,7 @@ import csv
 '''from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt'''
 
-stationTypeExclude = ["Outpost", "Fleet Carrier", "Planetary Port", "Planetary Outpost"]
+stationTypeExclude = ["Outpost", "Fleet Carrier", "Planetary Port", "Planetary Outpost", "MegaShip"]
 econExclude = ["Extraction", "Refinery"]
 stateExclude = ["War", "Civil War", "Pirate Attack", "Bust", "Election"]
 MFacs = MFRep.getMinorFactions(35)
@@ -68,6 +68,9 @@ def getTargets():
         return None
 
     for system in systems:
+        if len(system.stations) < 3:
+            continue
+
         print("{} ({}ly)".format(system.name, system.distOrig))
         for i in system.stations:
             print("    {} ({}/{})".format(i, system.stations[i][0], system.stations[i][1]))
@@ -106,21 +109,3 @@ ax.set_zbound(-300, 300)
 ax.scatter(xs, ys, zs, s=stations, c=factions, alpha=0.9)
 plt.show()
 '''
-
-while True:
-    input(">")
-    dock = MFRep.getLastDock()
-    try:
-        sys = next(sys for sys in systems if sys.name == dock[0])
-    except StopIteration:
-        print("You aren't at a listed system")
-        continue
-    facs = list(sys.factions)
-
-    for i in range(len(facs)):
-        print("({}) {}".format(i, facs[i]))
-    faction = int(input("Which Faction >"))
-
-    with open("WMMs Log.txt", "a") as f:
-        f.writelines("{}/{}/{}\n".format(sys.name, dock[1], facs[faction]))
-    f.close()

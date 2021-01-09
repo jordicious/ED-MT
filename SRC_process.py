@@ -5,9 +5,15 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib.transforms as mtransforms
 import numpy as np
-from math import sqrt, sin, cos, tan, asin, acos, atan, degrees, radians
+from math import *
 import random
 from PIL import Image
+
+
+def removeD(d, key):
+    dic = dict(d)
+    del dic[key]
+    return dic
 
 
 def rotate(vector, axis, theta):
@@ -24,6 +30,8 @@ def rotate(vector, axis, theta):
             0, 1, 0,
             -sin(theta), 0, cos(theta)
         ], (3, 3))
+    else:
+        return None
 
     return np.sum(np.multiply(rotationMatrix, vector), 1)
 
@@ -71,6 +79,18 @@ class Vector:
         return degrees(acos((v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z)))
 
 
+class Path:
+    def __init__(self, path: list):
+        self.path = path
+        self.length = 0
+        for i in range(len(path)):
+            if not i:
+                continue
+            p = rocks[path[i-1]]
+            c = rocks[path[i]]
+            self.length += Vector(p.x, c.x, p.y, c.y, p.z, c.z).mag
+
+
 def navball(target: Vector, originRaw: Vector):
     target, origin = target.normalize(), originRaw.normalize()
     # print(origin.theta - target.theta)
@@ -115,6 +135,9 @@ ax.set_xlabel('X (km)')
 ax.set_ylabel('Y (km)')
 ax.set_zlabel('Z (km)')
 
+plt.draw()
+plt.pause(1)
+
 for i in range(len(data[1:, ])):
     rocks[i] = Rock(i, data[i + 1, 1], data[i + 1, 2], data[i + 1, 3], data[i + 1, 4])
 
@@ -122,9 +145,10 @@ for i in range(len(data[1:, ])):
 def drawPath(pathList: list, delay):
     curr = rocks[0].coords()
     pathDraw = []
+    c = ((rand()+1)/2, (rand()+1)/2, (rand()+1)/2)
     for i in pathList[1:]:
         target = rocks[i].coords()
-        pathDraw.append(plt.plot((curr[0], target[0]), (curr[1], target[1]), (curr[2], target[2]), c=(1, 0, 0), alpha=0.4))
+        pathDraw.append(plt.plot((curr[0], target[0]), (curr[1], target[1]), (curr[2], target[2]), c=c, alpha=0.4))
         plt.draw()
         if delay:
             plt.pause(delay)
@@ -165,177 +189,40 @@ def genNav(pathList: list):
         curr = target
 
 
-def selectNext(curr, rocksRem, prevVec, c1, c2, c3, first):
-    metricHigh = 0
-    minVal = 35
-    maxVal = max(data[1:, 4])
-    maxRange = 7
-    maxAngle = 90
-    timeout = 0
-    # print("next")
-    while metricHigh == 0:
-        for i in rocksRem:
-            if rocks[i].value < minVal:
-                continue
-            v = Vector(curr.x, rocks[i].x, curr.y, rocks[i].y, curr.z, rocks[i].z)
-            if v.mag > maxRange or Vector(0, rocks[i].x, 0, rocks[i].y, 0, rocks[i].z).mag > 20:
-                continue
-            angle = abs(prevVec.theta - v.theta)
-            angle -= 180 if angle > 180 else 0
-
-            # print(angle, v.theta, prevVec.theta)
-            if first:
-                metric = remap(v.mag, 0, maxRange, c2, 0) + remap(rocks[i].value, minVal, maxVal, 0, c3)
-            elif angle > maxAngle:
-                continue
-            metric = remap(angle, 0, maxAngle, c1, 0) + remap(v.mag, 0, maxRange, c2, 0) + remap(rocks[i].value, minVal, maxVal, 0, c3)
-
-            # line = plt.plot((curr.x, rocks[i].x), (curr.y, rocks[i].y), (curr.z, rocks[i].z), c=(0,0,0))
-            # plt.pause(0.05)
-            # line.pop(0).remove()
-
-            # print(metric)
-
-            if metric > metricHigh:
-                next = i
-                metricHigh = metric
-
-        if metricHigh > 0:
-            # print("    Selected UID {} with fit {}".format(next, metricHigh))
-            return next, angle, v.mag, rocks[i].value
-
-        maxAngle += 5 if maxAngle < 175 else 0
-        maxRange += 0.2 if maxRange < 9 else 0
-        # minVal -= 2 if minVal > 0 else 0
-        timeout += 1
-        if timeout > 25:
-            return 0, 0, 0, 0
-        # print(maxAngle, minVal, maxRange)
-
-
-def genPath(c1, c2, c3, col):
-    length = 0
-    value = 0
-    turn = 0
-    path = [0]
-    lines = []
-
+def genPaths(n):
+    random.seed = random.randint(1, 999999999)
     rocksRem = [i for i in range(len(rocks))]
     rocksRem.remove(0)
-    first = 1
+    max = int(floor(len(rocksRem)/n))
+    lengths = [max]*n
+    lengths[-1] += len(rocksRem) % max
+    maps = set()
 
-    current = rocks[0]
-    prevVec = Vector(0, 0, 0, 1, 0, 0)
+    for i in lengths:
+        path = [0]
+        for j in range(i):
+            sel = random.choice(rocksRem)
+            path.append(sel)
+            rocksRem.remove(sel)
 
-    while True:
-        next, angle, mag, val = selectNext(current, rocksRem, prevVec, c1, c2, c3, first)
-        first = 0
-        if next:
-            turn += angle
-            length += mag
-            value += val
-
-            path.append(next)
-            rocksRem.remove(next)
-            # lines.append(plt.plot((current.x, rocks[next].x), (current.y, rocks[next].y), (current.z, rocks[next].z), c=((1-col), 0, col)))
-            # plt.pause(0.01)
-            prevVec = Vector(current.x, rocks[next].x, current.y, rocks[next].y, current.z, rocks[next].z)
-            current = rocks[next]
-        else:
-            break
-
-    # plt.pause(0.01)
-    # lines = [j.pop(0).remove() for j in lines]
-    if value*0.5 < 750:
-        return 0, 0, 0, 0
-    return path, length, turn, value
+        maps.add(Path(path))
+    return maps
 
 
-def genetic(genCap, timer):
-    plt.draw()
-    plt.pause(.5)
-    gen = 1000
-    count = 0
-    highscore = 0
-    goodPath = []
-    prevIter = []
-    dupecount = 0
-    timeout = timer
-    genpaths = []
+record = (999999, None)
 
-    c1, c2, c3 = gen, gen, gen
-
-    while gen > 1:
-        c1_ = (gen) * rand() + c1
-        c2_ = (gen) * rand() + c2
-        c3_ = (gen) * rand() + c3
-
-        path, length, turn, value = genPath(c1_, c2_, c3_, 0.5)
-        if path:
-            score = 100000/turn
-            print(score)
-            genpaths.append((path, score, (c1_, c2_, c3_), (length, turn, value)))
-            # print("    Qty", len(path), "score", score)
-        else:
-            timeout -= 1
-            # print("Timeout: ", timeout)
-
-        if len(genpaths) > genCap or timeout == 0:
-            for i in range(len(genpaths)):
-                if genpaths[i][1] > highscore:
-                    goodPath = genpaths[i][0]
-                    (c1, c2, c3) = genpaths[i][2]
-                    (bLen, bTurn, bVal) = genpaths[i][3]
-            gen *= 0.9
-            genpaths = []
-            count += 1
-            timeout = timer/count
-            print("Generation {} complete, new base coefficients: {} {} {}".format(count, c1, c2, c3))
-            print("    Timeout set to", timeout)
-
-            if goodPath == prevIter:
-                dupecount += 1
-                print("    Dupes:", dupecount)
-            else:
-                dupecount = 0
-            if dupecount >= 3:
-                break
-            prevIter = goodPath
-
-    return goodPath, bLen, bTurn, bVal
+for i in range(100000000):
+    paths = genPaths(3)
+    lenTotal = sum(i.length for i in paths)
+    if lenTotal < record[0]:
+        record = (lenTotal, paths)
+    print(lenTotal, record[0])
 
 
-# path, length, turn, value = genetic(50, 1000)
+for i in record[1]:
+    drawPath(i.path, 0.05)
+plt.show()
+
+
 # print("\nFINAL: Path generated: dist {}km, turn {} degrees, yield {}t".format(length, turn, value*0.5), "\n    ", path) if path else ("Failed to generate path")
 
-
-cmd = 'go'
-line = []
-prev = 0
-plt.draw()
-tonnage = 0
-path = [0, 10, 3, 1, 4, 60, 59, 58, 57, 56, 55, 54, 53, 48, 50, 45, 38, 39, 44, 42, 35, 34, 32, 26, 28, 25, 23, 22, 21, 20, 17, 13, 12, 7, 61, 8, 6, 5]
-
-if len(path) <= 1:
-    while cmd:
-        cmd = input("Estimated Tonnage: " + str(tonnage) + ">>")
-        if cmd:
-            path.append(int(cmd))
-            curr = rocks[prev]
-            target = rocks[int(cmd)]
-            line.append(plt.plot((curr.x, target.x), (curr.y, target.y), (curr.z, target.z), c=(1, 0, 0)))
-            tonnage += target.value * 0.5
-
-            plt.draw()
-            plt.pause(0.01)
-            prev = int(cmd)
-
-
-line = [i.pop(0).remove() for i in line]
-lines = drawPath(path, 0.05)
-print(path)
-
-if input() == 'generate':
-    genNav(path)
-
-plt.show()

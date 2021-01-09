@@ -65,15 +65,18 @@ def getLastDock():
                     if entry["event"] == "Docked":
                         lastDock[0], lastDock[1] = entry["StarSystem"], entry["StationName"]
                         lastDock[2] = lastDock[0]
-                    elif entry["event"] == "FSDJump":
+
+                    try:
                         lastDock[2] = entry["StarSystem"]
-            if lastDock:
+                    except KeyError:
+                        pass
+            if lastDock[0]:
                 return lastDock
 
 
 if __name__ == "__main__":
     print(getLastDock())
 
-    facs = getMinorFactions(35)
+    facs = getMinorFactions(90)
     for i in facs:
         print(i)

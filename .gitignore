@@ -5,3 +5,7 @@ logpath.txt
 systems.json
 systemsPopulated.json.gz
 MWWF.csv
+*.json
+*.csv
+*.csv
+test.py
