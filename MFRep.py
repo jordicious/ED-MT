@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 
 dirpath = os.path.expanduser("~") + "/Saved Games/Frontier Developments/Elite Dangerous"
-    
+
 paths = sorted(Path(dirpath).iterdir(), key=os.path.getmtime)
 for i in paths:
     if str(i)[-4:] != ".log":
@@ -79,3 +79,5 @@ if __name__ == "__main__":
     facs = getMinorFactions(90)
     for i in facs:
         print(i)
+
+input()
