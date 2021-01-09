@@ -4,19 +4,17 @@ import json
 
 dirpath = os.path.expanduser("~") + "/Saved Games/Frontier Developments/Elite Dangerous"
 
-paths = sorted(Path(dirpath).iterdir(), key=os.path.getmtime)
-for i in paths:
-    if str(i)[-4:] != ".log":
-        paths.remove(i)
+
 
 
 def getMinorFactions(thresh):
+    paths = sorted(Path(dirpath).iterdir(), key=os.path.getmtime)
     MFs = {}
-    for i in paths:
+    for i in (i for i in paths if str(i)[-4:] == ".log"):
         with open(str(i), "r", encoding='utf-8')as file:
             for line in file:
                 try:
-                    entry = json.loads(file.readline())
+                    entry = json.loads(line)
                 except json.decoder.JSONDecodeError:
                     entry = None
 
@@ -34,29 +32,24 @@ def getMinorFactions(thresh):
                         continue
             file.close()
 
-    for i in MFs:
-        if int(MFs[i]) > 5:
-            l = MFs[i]
-            rep = "Allied" if l > 90 else "Friendly" if l > 35 else "Cordial"
-            # print("{}: {}".format(i, rep))
-
     facs = set()
 
     for i in MFs:
-        if int(MFs[i]) > thresh:
+        if int(MFs[i]) >= thresh:
             facs.add(i)
 
     return(facs)
 
 
 def getLastDock():
+    paths = sorted(Path(dirpath).iterdir(), key=os.path.getmtime)
     paths.reverse()
     lastDock = [None, None, None]
     for i in paths:
         with open(str(i), "r", encoding='utf-8') as file:
             for line in file:
                 try:
-                    entry = json.loads(file.readline())
+                    entry = json.loads(line)
                 except json.decoder.JSONDecodeError:
                     entry = None
 
@@ -72,11 +65,13 @@ def getLastDock():
             if lastDock[0]:
                 return lastDock
 
+            file.close()
+
 
 if __name__ == "__main__":
     print(getLastDock())
-
     facs = getMinorFactions(90)
+
     for i in facs:
         print(i)
 
