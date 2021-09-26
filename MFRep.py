@@ -5,8 +5,6 @@ import json
 dirpath = os.path.expanduser("~") + "/Saved Games/Frontier Developments/Elite Dangerous"
 
 
-
-
 def getMinorFactions(thresh):
     paths = sorted(Path(dirpath).iterdir(), key=os.path.getmtime)
     MFs = {}
@@ -74,5 +72,3 @@ if __name__ == "__main__":
 
     for i in facs:
         print(i)
-
-input()
